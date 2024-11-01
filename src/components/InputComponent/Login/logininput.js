@@ -2,9 +2,12 @@ import styled from "styled-components"
 
 const Input = styled.input`
     border: 1px solid rgb(230 232 234);
-    border-radius: 4px;
+    border-radius: 8px;
     margin-bottom: 8px;
     cursor: pointer;
+    &:focus{
+        outline: none;
+    }
     &[type="submit"]{
         transition: all 0.3s ease-in-out;
         background-color: #38b4ff;

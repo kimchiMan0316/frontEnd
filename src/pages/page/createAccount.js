@@ -62,7 +62,7 @@ export default function CreateAccount(){
     // 이메일 전송
     const sendEmail = () =>{
         if(email.length < 10 || email.indexOf("@") == -1){
-            alert("이메일을 다시 입력해주세요")
+            alert("이메일을 양식을 다시 확인해주세요")
             return;
         }
         const mail = {
@@ -77,9 +77,10 @@ export default function CreateAccount(){
             body : JSON.stringify(mail)
         })
         .then((response)=>{
-            if(response.status == 200){
+            console.log(response)
+            if(response.status==200){
                 setModal(false)
-            }else if(response.status == 400){
+            }else if(!response.status){
                 alert("이미 가입한 email입니다.")
             }
         })
@@ -94,7 +95,7 @@ export default function CreateAccount(){
         const code = {
             code : emailCode
         }
-        fetch("http://localhost:8080//api/check/mail", {
+        fetch("http://localhost:8080/api/check/mail", {
             credentials : "include",
             method: 'POST',
             headers : {

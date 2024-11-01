@@ -27,7 +27,7 @@ const P = styled.span`
 export default function ButtonComponent(
     {width, height, color, value,
      backgroundColor , onClick , changeColor, 
-     backgroundImage, icon ,callback
+     backgroundImage, icon ,callback,
     }){
     
     const style = {
@@ -38,6 +38,6 @@ export default function ButtonComponent(
         backgroundImage : backgroundImage,
     }
     return(
-        <Button style={{style}} onClick={onClick} changeColor={changeColor}>{icon}<P>{value}</P></Button>
+        <Button style={{style}} onClick={onClick} changeColor={changeColor} >{icon}<P>{value}</P></Button>
     );
 }

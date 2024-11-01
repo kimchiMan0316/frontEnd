@@ -93,7 +93,8 @@ export default function Login(){
         })
         .then((response)=>{
             if(response.status === 200){
-                return <Navigate to="/"/>
+                console.log(response)
+                return navigate('/')
             }else{
                 alert("로그인 정보를 다시 확인해주세요.")
                 return;

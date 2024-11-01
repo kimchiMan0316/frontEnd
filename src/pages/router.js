@@ -6,19 +6,28 @@ import Profile from "./page/profile";
 import CreateAccount from "./page/createAccount";
 import Protect from "../Auth/protect";
 import ForgetAccount from "./page/forget-account";
+import Message from "./page/massage";
 
 export const router = createBrowserRouter([
     {
         path:"/",
-        element:<Layout/>,
+        element:<Protect><Layout/></Protect>,
         children:[
             {
                 path:"/",
                 element:<Home/>
             },
             {
+                path:"/profile",
+                element:<Profile/>
+            },
+            {
                 path:"/profile/:username",
                 element:<Profile/>
+            },
+            {
+                path:"/chat",
+                element:<Message/>
             }
         ]
     },

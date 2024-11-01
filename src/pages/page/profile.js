@@ -1,5 +1,11 @@
+import MainLayout from "../Layout/mainLayout"
+
+
+
 export default function Profile(){
     return(
-        <div>is Profile</div>
+        <MainLayout>
+            
+        </MainLayout>
     )
 }

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import ButtonComponent from "../../components/button/button"
 import { AiFillHome } from "react-icons/ai";
@@ -58,25 +58,35 @@ const Box = styled.div`
 
 export default function Layout(){
     const [modal, setModal] = useState()
+    const navigate = useNavigate()
     const closeModal = () =>{
         setModal();
     }
     const searchModal = () =>{
         setModal(<SearchModal closeModal={closeModal}/>)
     }
+    const onProfile = () =>{
+        navigate("/profile")
+    }
+    const onMain = () =>{
+        navigate("/")
+    }
+    const onChat = () =>{
+        navigate("/chat")
+    }
     return(
         <Wrap>
             <TopLayout>
                 <Top>
-                    <img src="./image/untityLogo.png" style={{width: "50%", margin:"20px 0"}}/>
-                    <ButtonComponent value="홈" icon={<AiFillHome size={24}/>}/>
+                    <img src="./image/untityLogo.png" style={{width: "50%", margin:"20px 0", cursor:"pointer"}} onClick={onMain}/>
+                    <ButtonComponent value="홈" icon={<AiFillHome size={24} onClick={onMain}/>}/>
                     <ButtonComponent value="검색" icon={<FiSearch size={24}/>} onClick={searchModal}/>
-                    <ButtonComponent value="메세지" icon={<IoChatbubbleOutline size={24} />}/>
+                    <ButtonComponent value="메세지" icon={<IoChatbubbleOutline size={24} onClick={onChat}/>}/>
                     <ButtonComponent value="알림" icon={<FaRegHeart size={24}/>}/>
                     <ButtonComponent value="게시글 작성" icon={<LuPlusSquare size={24}/>}/>
                     <Conteiner>
                         <P>개인설정</P>
-                        <ButtonComponent value="프로필" icon={<Profile/>}/>
+                        <ButtonComponent value="프로필" icon={<Profile/>} onClick={onProfile}/>
                     </Conteiner>
                 </Top>
                 <Bottom>
