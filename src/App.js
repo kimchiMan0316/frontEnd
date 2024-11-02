@@ -14,7 +14,6 @@ const GrobalStyle = createGlobalStyle`
   }
 `
 const Wrap = styled.div`
-
 `
 
 function App() {

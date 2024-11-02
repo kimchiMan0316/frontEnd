@@ -13,13 +13,14 @@ const Input = styled.input`
         background-color: #38b4ff;
         border: none;
         color: white;
+        cursor: pointer;
         &:hover{
             opacity: 0.8;
         }
     }
 `
 
-export default function LoginInput({type, width, height, fontSize, value, onChange, placeholder, onClick, padding, backgroundColor, color, marginBottom, minLength}){
+export default function LoginInput({type, width, fontWeight, height, fontSize, value, onChange, placeholder, onClick, padding, backgroundColor,margin , color, marginBottom, minLength,border}){
     const option = {
         width: width,
         height: height,
@@ -29,6 +30,9 @@ export default function LoginInput({type, width, height, fontSize, value, onChan
         color: color,
         marginBottom : marginBottom,
         minLength : minLength,
+        margin:margin,
+        border: border,
+        fontWeight:fontWeight,
     }
     return(
         <Input onChange={onChange} type={type} style={option} value={value} placeholder={placeholder} onClick={onClick} minLength={minLength}/>

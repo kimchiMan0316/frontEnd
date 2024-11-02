@@ -10,6 +10,7 @@ import { IoMdOptions } from "react-icons/io";
 import { SlOptions } from "react-icons/sl";
 import SearchModal from "../../components/modalComponent/searchModal";
 import { useState } from "react";
+import { IoIosHeartEmpty } from "react-icons/io";
 
 const Wrap = styled.div`
     display: flex;
@@ -82,7 +83,7 @@ export default function Layout(){
                     <ButtonComponent value="홈" icon={<AiFillHome size={24} onClick={onMain}/>}/>
                     <ButtonComponent value="검색" icon={<FiSearch size={24}/>} onClick={searchModal}/>
                     <ButtonComponent value="메세지" icon={<IoChatbubbleOutline size={24} onClick={onChat}/>}/>
-                    <ButtonComponent value="알림" icon={<FaRegHeart size={24}/>}/>
+                    <ButtonComponent value="알림" icon={<IoIosHeartEmpty size={24}/>}/>
                     <ButtonComponent value="게시글 작성" icon={<LuPlusSquare size={24}/>}/>
                     <Conteiner>
                         <P>개인설정</P>

@@ -65,8 +65,9 @@ export default function CreateAccount(){
             alert("이메일을 양식을 다시 확인해주세요")
             return;
         }
+        setModal(false)
         const mail = {
-            mail : email
+            email : email
         }
         fetch("http://localhost:8080/api/send/mail", {
             method : 'POST',
@@ -79,7 +80,7 @@ export default function CreateAccount(){
         .then((response)=>{
             console.log(response)
             if(response.status==200){
-                setModal(false)
+                return;
             }else if(!response.status){
                 alert("이미 가입한 email입니다.")
             }
@@ -88,13 +89,14 @@ export default function CreateAccount(){
 
     // 인증번호 전송
     const sendEmailCode = () =>{
-        if(emailCode.length < 6){
+        if(emailCode.length < 5){
             alert("인증번호를 다시 입력해주세요")
             return;
         }
         const code = {
             code : emailCode
         }
+        console.log(code)
         fetch("http://localhost:8080/api/check/mail", {
             credentials : "include",
             method: 'POST',
@@ -104,10 +106,12 @@ export default function CreateAccount(){
             body : JSON.stringify(code)
         })
         .then((response)=>{
-            if(response.status == 200){
+            console.log(response)
+            if(response.status === 200){
                 setModal(false)
                 setEmailState(true)
-            }else if(response.status == 400){
+            }else if(response.status === 400){
+                console.log(response)
                 alert("인증번호를 다시 입력해주세요.")
             }
         })
@@ -134,9 +138,9 @@ export default function CreateAccount(){
             body: formData,
         })
         .then((response)=>{
-            if(response.status == 200){
+            if(response.status === 200){
                 return <Navigate to = "/login"/>
-            }else if(response.status == 400){
+            }else if(response.status === 400){
                 alert(response.Text);
             }
         })
@@ -178,7 +182,7 @@ export default function CreateAccount(){
                         <>
                             <P style={{marginBottom:"20px"}}>{email}로 이메일을 전송했습니다.</P>
                             <LoginInput type="text" width="180px" height="30px" padding="8px" placeholder="인증번호" onChange={handleEmailCode} value={ emailCode }/>
-                            <LoginInput type="submit" width="180px" height="30px" value="인증하기" onClick={sendEmailCode}/>
+                            <LoginInput type="submit" width="180px" height="30px" value="인증하기" onClick={sendEmailCode} />
                         </>
                     }
                     closeModal={closeModal}

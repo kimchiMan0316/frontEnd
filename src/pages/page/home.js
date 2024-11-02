@@ -9,7 +9,7 @@ const Wrap = styled.div`
     align-items: center;
     width: 1100px;
     height: auto;
-    background-color: aqua;
+    background-color: white;
 `
 
 export default function Home(){

@@ -6,16 +6,18 @@ export default function Protect({children}){
         const response = await fetch("http://localhost:8080/api/checkSession",{
             credentials : "include",
         })
-        if(response === 200){
+        if(response.status == 200){
+            console.log(response)
             return true;
         }else{
+            console.log(response)
             return false;
         }
     }
     const mySession = checkSession()
     if(!mySession){
-        navigate("/login")
-        return;
+        
+        return <Navigate to="/login"/>
     }
     
     return children;
