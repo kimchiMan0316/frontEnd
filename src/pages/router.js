@@ -5,7 +5,7 @@ import Layout from "./Layout/Layout";
 import Profile from "./page/profile";
 import CreateAccount from "./page/createAccount";
 import Protect from "../Auth/protect";
-import ForgetAccount from "./page/forget-account";
+import ForgetAccount from "./page/forget-account/forget-account";
 import Message from "./page/massage";
 
 export const router = createBrowserRouter([

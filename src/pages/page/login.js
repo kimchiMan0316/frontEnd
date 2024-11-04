@@ -24,7 +24,9 @@ const ImageArea = styled.div`
     height: 100%;
     border:none;
 `
-const LoginArea = styled(ImageArea)`
+const LoginArea = styled.form`
+    width: 50%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,7 +44,7 @@ const P = styled.span`
     text-decoration: none;
     margin: 20px 0 10px 0;
     &[name="forget"]{
-        color:#4e5968;
+        color:#6a737f;
         cursor: pointer;
         margin: 10px;
         font-size: 14px;
@@ -75,8 +77,9 @@ export default function Login(){
     const forgetAccount = () =>{
         navigate("/forget-account") 
     }
-    const login = () =>{
-        if(!id || !password){
+    const login = (e) =>{
+        e.preventDefault();
+        if(!id && !password){
             alert("로그인 정보를 입력해주세요.");
             return;
         }
@@ -86,6 +89,7 @@ export default function Login(){
         }
         fetch("http://localhost:8080/api/login",{
             method: 'POST',
+            credentials:'include',
             headers :{
                 'Content-Type' : 'application/json'
             },
@@ -107,11 +111,11 @@ export default function Login(){
                 <ImageArea>
                     <img src="./image/untityLogo.png" style={{width:"100%"}}/>
                 </ImageArea>
-                <LoginArea>
+                <LoginArea onSubmit={login}>
                     <Logo src="./image/untityLogo.png" style={{cursor:"pointer"}}/>
-                    <LoginInput type="text" width="310px" height="40px" fontSize="16px" value={id} onChange={onChangeId} placeholder={"아이디"} padding="0 8px" minLength={6}/>
-                    <LoginInput type="password" width="310px" height="40px" fontSize="16px" value={password} onChange={onChangePassword} placeholder={"비밀번호"} padding="0 8px" minLength={6}/>
-                    <LoginInput type="submit" width="310px" height="35px" fontSize="16px" value="로그인" onClick={login}/>
+                    <LoginInput type="text" width="310px" height="40px" fontSize="16px" value={id} onChange={onChangeId} placeholder={"아이디"} padding="0 8px" minLength={2}/>
+                    <LoginInput type="password" width="310px" height="40px" fontSize="16px" value={password} onChange={onChangePassword} placeholder={"비밀번호"} padding="0 8px" minLength={2}/>
+                    <LoginInput type="submit" width="310px" height="35px" fontSize="16px" value="로그인"/>
                     <P>아직 계정이 없으신가요 ? <Link to="/create-account" style={linkStyle}>계정 만들기</Link></P>
                     <AtherLogin>
                         <button style={{width:"328px",height:"35px", border:"none", fontSize:"16px"}}>카카오로 로그인하기</button>

@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { FaRegHeart } from "react-icons/fa";
 import { RiChat3Line } from "react-icons/ri";
 import LoginInput from "../InputComponent/Login/logininput";
+import { useState } from "react";
 
 const Wrap = styled.div`
     width: 500px;
@@ -42,6 +43,12 @@ const InfLayer = styled.div`
     justify-content: left;
     align-items: center;
 `
+const LikeButton = styled.div`
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+`
 const Button = styled(InfLayer)`
     justify-content: center;
     height: 36px;
@@ -73,14 +80,44 @@ const Div = styled.div`
         font-size: 14px;
     }
 `
-export default function HomeContentsBox({}){
+const Form = styled.form``
+
+export default function HomeContentsBox({item}){
+    const [ comment, setComment] =useState("")
+
+    // 댓글 상태
+    const handleComment = (e) =>{
+        setComment(e.target.value)
+    }
+    // 댓글 쓰기
+    const sendComment = (e) => {
+        e.preventDefault();
+        const COMMENT = {
+            comment: comment
+        }
+        fetch(`http://localhost:8080/api/comment/${item.id}`,{
+            credentials :'include',
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: JSON.stringify(COMMENT)
+        })
+        .then((Response)=>Response.json())
+        .then((data)=>{
+            setComment("")
+
+        })
+          
+    }
+    console.log("틀 :",item)
     return(
-        <Wrap>
+        <Wrap id={item.id}>
             <ProfileLayer>
                 <ProfilePhoto></ProfilePhoto>
                 <Div style={{display:"flex", flexDirection:"column",height:"100%",alignItems:"start", justifyContent:"center"}}>
-                    <Username>seolja_boyy2</Username>
-                    <Nickname>parkseolho</Nickname>
+                    <Username>{item.username}</Username>
+                    <Nickname>{item.nickname}</Nickname>
                 </Div>
             </ProfileLayer>
             <PhotoLayer>
@@ -88,31 +125,31 @@ export default function HomeContentsBox({}){
             </PhotoLayer>
             <ActicleLayer>
                 <InfLayer>
-                    <div style={{display:"flex", height:"100%",alignItems:"center", justifyContent:"center"}}>
-                        <Button>
-                            <FaRegHeart size={20}/>
+                    <LikeButton>
+                        <Button >
+                            <FaRegHeart size={20} fill="red"/>
                         </Button>
-                        <P>24</P>
-                    </div>
-                    <div style={{display:"flex", height:"100%",alignItems:"center", justifyContent:"center"}}>
-                        <Button>
+                        <P>{item.likes}</P>
+                    </LikeButton>
+                    <LikeButton>
+                        <Button >
                             <RiChat3Line size={22}/>
                         </Button>
-                        <P>30</P>
-                    </div>
+                        <P>{item.countComment}</P>
+                    </LikeButton>
                 </InfLayer>
                 <Acticle>
-                    <Div name="acticle" style={{fontSize:"14px",fontWeight:"600", cursor:"pointer"}}>좋아요 2개</Div>
+                    <Div name="acticle" style={{fontSize:"14px",fontWeight:"600", cursor:"pointer"}}>좋아요 {item.likes > 0 ? `${item.likes}`:""}</Div>
                     <Div name="acticle" style={{fontSize:"16px"}}>
-                        <span style={{fontWeight:"600", cursor:"pointer"}}>soelja_boy2</span><span style={{marginLeft:"6px"}}>goodgoodgodogooododosdadsaddad</span>
+                        <span style={{fontWeight:"600", cursor:"pointer"}}>{item.nickname}</span><span style={{marginLeft:"6px"}}>{item.article}</span>
                     </Div>
                     <Div name="acticle" style={{cursor:"pointer"}}>
                         댓글 더 보기
                     </Div>
-                    <Div style={{display:"flex", height:"100%" , alignItems:"center"}}>
-                        <LoginInput width="410px" height="36px" placeholder="댓글달기..." border="none"/>
-                        <LoginInput type="submit" height="30px" width="40px" value="확인" backgroundColor="white" color="black" fontWeight="600"/>
-                    </Div>
+                    <Form onSubmit={sendComment} style={{display:"flex", height:"100%" , alignItems:"center"}}>
+                        <LoginInput width="410px" height="36px" placeholder="댓글달기..." border="none" value={comment} onChange={handleComment}/>
+                        <LoginInput type="submit" height="30px" width="40px" value={comment ? "확인":""} backgroundColor="white" color={comment ? "black":""} fontWeight="600"/>
+                    </Form>
                 </Acticle>
             </ActicleLayer>
         </Wrap>

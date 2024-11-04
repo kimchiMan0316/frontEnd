@@ -3,6 +3,7 @@ import styled from "styled-components";
 const Wrap = styled.div`
     z-index: 1000;
     position: absolute;
+    top: 0;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -10,7 +11,7 @@ const Wrap = styled.div`
     align-items: center;
     background-color: rgba(0,0,0,0.4);
 `
-const Conteiner = styled.div`
+const Conteiner = styled.form`
     z-index: 1001;
     width: 400px;
     height: 500px;
@@ -50,14 +51,14 @@ const Foot = styled(Main)`
     color: #4e5968;
 `
 
-export default function Modal({width, height, title, content, closeModal}){
+export default function Modal({width, height, title, content, closeModal, onSubmit}){
     const style = {
         width: width,
         height: height,
     }
     return(
         <Wrap>
-            <Conteiner style={style}>
+            <Conteiner style={style} onSubmit={onSubmit}>
                 <div style={{width:"100%", display:"flex", justifyContent:"right"}}>
                     <P name="cancle" onClick={closeModal}>X</P>
                 </div>

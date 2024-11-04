@@ -13,7 +13,11 @@ const Wrap = styled.div`
     height: 100vh;
     flex-direction: column;
 `
-const Box = styled(Wrap)`
+const Box = styled.form`
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid #d7d7d7;
     border-radius: 10px;
     height: auto;
@@ -59,16 +63,21 @@ export default function CreateAccount(){
         setEmailCode(EMAILCODE)
     }
     const navigate = useNavigate()
+    
+    const closeModal = () =>{
+        setModal(true);
+    }
     // 이메일 전송
-    const sendEmail = () =>{
-        if(email.length < 10 || email.indexOf("@") == -1){
+    const sendEmail = (e) =>{
+        e.preventDefault()
+        if(email.length < 5 || email.indexOf("@") == -1){
             alert("이메일을 양식을 다시 확인해주세요")
             return;
         }
-        setModal(false)
         const mail = {
             email : email
         }
+        setModal(false)
         fetch("http://localhost:8080/api/send/mail", {
             method : 'POST',
             credentials : 'include' ,
@@ -80,7 +89,6 @@ export default function CreateAccount(){
         .then((response)=>{
             console.log(response)
             if(response.status==200){
-                return;
             }else if(!response.status){
                 alert("이미 가입한 email입니다.")
             }
@@ -88,7 +96,8 @@ export default function CreateAccount(){
     }
 
     // 인증번호 전송
-    const sendEmailCode = () =>{
+    const sendEmailCode = (e) =>{
+        e.preventDefault()
         if(emailCode.length < 5){
             alert("인증번호를 다시 입력해주세요")
             return;
@@ -111,18 +120,16 @@ export default function CreateAccount(){
                 setModal(false)
                 setEmailState(true)
             }else if(response.status === 400){
-                console.log(response)
+                setEmailCode("")
                 alert("인증번호를 다시 입력해주세요.")
             }
         })
     }
-    const closeModal = () =>{
-        setModal(true);
-    }
+    
     // 회원가입
     const handleSignIn = (e) =>{
         e.preventDefault();
-        if(!emailState || username,password,nickname == ""){
+        if(!emailState && username,password,nickname == ""){
             return;
         }
         const formData = new FormData();
@@ -148,7 +155,7 @@ export default function CreateAccount(){
 
     return(
         <Wrap>
-            <Box>
+            <Box onSubmit={handleSignIn}>
                 <img src="./image/untityLogo.png" style={{width:"260px", cursor:"pointer"}} onClick={()=>navigate("/login")}/>
                 <P>운티티에서 친구들과 소통해요.</P>
                 <LoginInput type="text" width="300px" height="40px" padding="0 8px" placeholder="아이디" value={username} onChange={handleUsername} minLength={6}/>
@@ -160,13 +167,13 @@ export default function CreateAccount(){
                         width="80px" 
                         height={emailState ? "0":"30px"} 
                         marginBottom={emailState ? "0":"8px"}
-                        value="인증하기" 
+                        value={emailState ? "인증완료":"인증하기"} 
                         backgroundColor={emailState ? "#38b4ff":"rgb(185 185 185)"} 
                         onClick={sendEmail}/>
                         :null}  
                 </div>
                 <LoginInput type="text" width="300px" height="40px" padding="0 8px" placeholder="닉네임" value={nickname} onChange={handleNickname} minLength={4}/>
-                <LoginInput type="submit" width="300px" height="40px" value="회원가입" fontSize="16px" onClick={handleSignIn}/>
+                <LoginInput type="submit" width="300px" height="40px" value="회원가입" fontSize="16px"/>
                 <P style={{color:"#4e5968"}}>계정이 있다면 바로 로그인 해주세요.</P>
             </Box>
             <Box name="sideBox">
@@ -175,6 +182,7 @@ export default function CreateAccount(){
             <Footer/>
             { modal ? null:
                 <Modal
+                    onSubmit={sendEmailCode}
                     width="380px"
                     height="350px"
                     title="이메일 인증하기"
@@ -182,7 +190,7 @@ export default function CreateAccount(){
                         <>
                             <P style={{marginBottom:"20px"}}>{email}로 이메일을 전송했습니다.</P>
                             <LoginInput type="text" width="180px" height="30px" padding="8px" placeholder="인증번호" onChange={handleEmailCode} value={ emailCode }/>
-                            <LoginInput type="submit" width="180px" height="30px" value="인증하기" onClick={sendEmailCode} />
+                            <LoginInput type="submit" width="180px" height="30px" value="인증하기" />
                         </>
                     }
                     closeModal={closeModal}
