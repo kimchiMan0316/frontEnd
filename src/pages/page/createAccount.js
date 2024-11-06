@@ -4,6 +4,7 @@ import LoginInput from "../../components/InputComponent/Login/logininput"
 import { Footer } from "../../components/LayoutComponrnt/LayoutComponent"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import Modal from "../../components/modalComponent/Emailmodal"
+import { linkStyle } from "../../utills/linkStyle"
 
 
 const Wrap = styled.div`
@@ -59,8 +60,7 @@ export default function CreateAccount(){
         setNickname(NICKNAME);
     }
     const handleEmailCode = (e) =>{
-        const EMAILCODE = e.target.value;
-        setEmailCode(EMAILCODE)
+        setEmailCode(e.target.value)
     }
     const navigate = useNavigate()
     
@@ -177,7 +177,7 @@ export default function CreateAccount(){
                 <P style={{color:"#4e5968"}}>계정이 있다면 바로 로그인 해주세요.</P>
             </Box>
             <Box name="sideBox">
-                <P>이미 계정이 있으신가요? <Link to ="/login" style={{textDecoration:"none", color:"#38b4ff"}}>로그인</Link></P>
+                <P>이미 계정이 있으신가요? <Link to ="/login" style={linkStyle}>로그인</Link></P>
             </Box>
             <Footer/>
             { modal ? null:

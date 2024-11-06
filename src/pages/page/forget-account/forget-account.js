@@ -44,7 +44,8 @@ const Id = styled.div`
     align-items: center;
     height: 50px;
     width: 50%;
-    border-radius: ${(props)=>(props.state == "id" ? "10px 0 0 10px":"10px 0 10px 0")};
+    font-weight: 600;
+    border-radius: ${(props)=>(props.state == "id" ? "10px 0 0 10px":"9px 0 10px 0")};
     border-right: ${(props)=>(props.state == "id" ? "none":"1px solid #cacaca")};
     border-bottom: ${(props)=>(props.state == "id" ? "none":"1px solid #cacaca")};
     background-color: ${(props)=>(props.state == "id" ? "white":"#cacaca")};
@@ -53,7 +54,7 @@ const Id = styled.div`
 `
 const Password = styled(Id)`
     border-right: none;
-    border-radius: ${(props)=>(props.state == "password" ? "0 10px 0 0":"0 10px 0 10px")};
+    border-radius: ${(props)=>(props.state == "password" ? "0 10px 0 0":"0 9px 0 10px")};
     border-left: ${(props)=>(props.state == "password" ? "none":"1px solid #cacaca")};
     border-bottom: ${(props)=>(props.state == "password" ? "none":"1px solid #cacaca")};
     background-color: ${(props)=>(props.state == "password" ? "white":"#cacaca")};

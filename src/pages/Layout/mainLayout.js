@@ -5,7 +5,7 @@ const Wrap = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     width: 1100px;
     height: auto;
     background-color: aqua;

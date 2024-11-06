@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import styled, { createGlobalStyle } from "styled-components";
 import { router } from "./pages/router";
+import { formatTime } from "./utills/formatTime";
 
 const GrobalStyle = createGlobalStyle`
   *{

@@ -3,6 +3,7 @@ import LoginInput from "../../components/InputComponent/Login/logininput"
 import { Footer } from "../../components/LayoutComponrnt/LayoutComponent"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { linkStyle } from "../../utills/linkStyle"
 
 
 
@@ -62,10 +63,7 @@ export default function Login(){
     const [id, setId] = useState()
     const [password, setPassword] = useState()
     const navigate = useNavigate()
-    const linkStyle = {
-        color:"#38b4ff",
-        textDecoration: "none"
-    }
+    
     const onChangeId =(e)=>{
         const value = e.target.value;
         setId(value)

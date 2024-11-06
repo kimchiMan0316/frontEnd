@@ -6,7 +6,6 @@ export default function Protect({children}){
         const response = await fetch("http://localhost:8080/api/checkSession",{
             credentials : "include",
         })
-        // .then((response)=>response.json())
         if(response.status == 200){
             console.log(response)
         }else if(response.status === 400){

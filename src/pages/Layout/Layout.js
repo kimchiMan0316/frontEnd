@@ -4,13 +4,15 @@ import ButtonComponent from "../../components/button/button"
 import { AiFillHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { IoChatbubbleOutline } from "react-icons/io5";
-import { FaRegHeart } from "react-icons/fa";
 import { LuPlusSquare } from "react-icons/lu";
 import { IoMdOptions } from "react-icons/io";
 import { SlOptions } from "react-icons/sl";
 import SearchModal from "../../components/modalComponent/searchModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosHeartEmpty } from "react-icons/io";
+import useScrollStore from "../../store/useScrollStore";
+
+
 
 const Wrap = styled.div`
     display: flex;
@@ -56,38 +58,31 @@ const Box = styled.div`
     background-color: aliceblue;
 `
 
-
 export default function Layout(){
     const [modal, setModal] = useState()
     const navigate = useNavigate()
+
     const closeModal = () =>{
         setModal();
     }
     const searchModal = () =>{
         setModal(<SearchModal closeModal={closeModal}/>)
     }
-    const onProfile = () =>{
-        navigate("/profile")
-    }
-    const onMain = () =>{
-        navigate("/")
-    }
-    const onChat = () =>{
-        navigate("/chat")
-    }
+    
+    
     return(
         <Wrap>
             <TopLayout>
                 <Top>
-                    <img src="./image/untityLogo.png" style={{width: "50%", margin:"20px 0", cursor:"pointer"}} onClick={onMain}/>
-                    <ButtonComponent value="홈" icon={<AiFillHome size={24} onClick={onMain}/>}/>
-                    <ButtonComponent value="검색" icon={<FiSearch size={24}/>} onClick={searchModal}/>
-                    <ButtonComponent value="메세지" icon={<IoChatbubbleOutline size={24} onClick={onChat}/>}/>
+                    <img src="./image/untityLogo.png" style={{width: "50%", margin:"20px 0", cursor:"pointer"}} />
+                    <ButtonComponent value="홈" icon={<AiFillHome size={24}/>} onClick={()=>{navigate("/")}}/>
+                    <ButtonComponent value="검색" icon={<FiSearch size={24}/>} onClick={searchModal} />
+                    <ButtonComponent value="채팅" icon={<IoChatbubbleOutline size={24}/>}  onClick={()=>{navigate("/chat")}}/>
                     <ButtonComponent value="알림" icon={<IoIosHeartEmpty size={24}/>}/>
-                    <ButtonComponent value="게시글 작성" icon={<LuPlusSquare size={24}/>}/>
+                    <ButtonComponent textDecoration="none" value="게시글 작성" icon={<LuPlusSquare size={24} />}/>
                     <Conteiner>
                         <P>개인설정</P>
-                        <ButtonComponent value="프로필" icon={<Profile/>} onClick={onProfile}/>
+                        <ButtonComponent value="프로필" icon={<Profile/>}  onClick={()=>{navigate("/profile")}}/>
                     </Conteiner>
                 </Top>
                 <Bottom>
@@ -97,9 +92,11 @@ export default function Layout(){
             </TopLayout>
             <Outlet/>
             <BottomLayout>
-                <Box></Box>
+                <Box>
+
+                </Box>
             </BottomLayout>
-            {modal != null ? modal:null}
+            {modal != null ? modal :null}
         </Wrap>
     )
 }

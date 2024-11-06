@@ -7,6 +7,7 @@ import CreateAccount from "./page/createAccount";
 import Protect from "../Auth/protect";
 import ForgetAccount from "./page/forget-account/forget-account";
 import Message from "./page/massage";
+import HomeLoadingComponent from "../components/loadingComponent/homeLoadingComponent";
 
 export const router = createBrowserRouter([
     {
@@ -27,7 +28,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:"/chat",
-                element:<Message/>
+                element:<HomeLoadingComponent/>
             }
         ]
     },
