@@ -79,7 +79,7 @@ const Content = styled.div`
 const Comment = styled.div`
     margin: 10px;
 `
-const CreateCommentArea = styled.form`
+const CreateCommentArea = styled.div`
     display: flex;
     justify-content: start;
     align-items: start;
@@ -94,10 +94,12 @@ const P = styled.span`
         font-weight: 600;
         font-size: 16px;
         margin-right: 6px;
+        cursor: pointer;
     }
 `
 const Date = styled.div`
     margin-top: 10px;
+    margin-left: 4px;
     font-size: 14px;
 `
 const ButtonArea = styled.form`
@@ -155,7 +157,7 @@ export default function Screen({closeScreen, post, postComment}){
             credentials:'include',
             method:'POST',
             headers:{
-                'Contnent-Type':'application/json'
+                'Content-Type':'application/json'
             },
             body: JSON.stringify({
                 article: review
@@ -164,8 +166,9 @@ export default function Screen({closeScreen, post, postComment}){
             .then((Response)=>Response.json())
             .then((data)=>{
                 console.log(data);
+                post.comments = [post.comments,{...data}]
+                setReview("")
         })
-        setReview("")
     }
     // 사용자 경험을 위한 똥꼬쇼 좋아요 부분
     const onClikeLike = () =>{
@@ -184,6 +187,7 @@ export default function Screen({closeScreen, post, postComment}){
         })
         .then((Response)=>{
             if(!Response.ok){
+                
                 return;
             }
         })
@@ -217,13 +221,13 @@ export default function Screen({closeScreen, post, postComment}){
                         <Content>
                             <P name="username">{post.username}</P>
                             <P>{post.article}</P>
-                            <Date>{`• ${formatTime(post.createTime)}`}</Date>
+                            <Date>{`${formatTime(post.createTime)}`}</Date>
                         </Content>
                         <Comment>
                             {comment.map((item)=>(<CommentBox key={item.commentId} comment={item} postId={post.id}/>))}
                         </Comment>
                     </Article>
-                    <CreateCommentArea onSubmit={createComment}>
+                    <CreateCommentArea>
                         <ButtonArea>
                             <div style={{display:'flex'}}>
                                 <Button onClick={()=>{onClikeLike(); handleLikes();}}>
@@ -240,7 +244,7 @@ export default function Screen({closeScreen, post, postComment}){
                             </div>
                         </ButtonArea>
                         <span style={{margin: '6px 10px'}}>좋아요 {likes}</span>
-                        <ButtonArea name="inputArea">
+                        <ButtonArea name="inputArea" onSubmit={createComment}>
                             <LoginInput type="text" id="comment" width="400px" height="30px" border="none" placeholder="댓글 쓰기 . . ." value={review} onChange={changereView}/>
                             <LoginInput type="submit" height="30px" width="50px" backgroundColor="white" color={review ? "rgb(74 84 194)":"#b1b0b0"} fontWeight="700" value="확인" placeholder="댓글 작성" border="none"/>
                         </ButtonArea>

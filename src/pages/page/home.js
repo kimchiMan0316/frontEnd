@@ -4,6 +4,7 @@ import usePost from "../../store/usePost"
 import { useEffect, useState } from "react";
 import useScrollStore from "../../store/useScrollStore";
 import HomeLoadingComponent from "../../components/loadingComponent/homeLoadingComponent";
+import useProfileStore from "../../store/useProfile";
 
 
 
@@ -29,10 +30,11 @@ export default function Home(){
     }
     
     useEffect(()=>{
-        getPost()
+        getPost();
         setLoading(true)
-    },[offset])
+    },[])
 
+    // 스크롤에 문제가 있음 로딩컴포넌트 스크롤기준으로 재랜더링 돼서 오류가 생김
     useEffect(() => {
         const handleScroll = () => {
             setScrollY(window.scrollY);
@@ -51,7 +53,7 @@ export default function Home(){
 
     return(
         <Wrap>
-            <button onClick={offsetChange}>버튼</button>
+            {/* <button onClick={offsetChange}>버튼</button> */}
             {loading ? post.map((item)=>(<HomeContentsBox key={item.id} item={item}/>)):<HomeLoadingComponent/>}
         </Wrap>
     )

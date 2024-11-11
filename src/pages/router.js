@@ -8,6 +8,7 @@ import Protect from "../Auth/protect";
 import ForgetAccount from "./page/forget-account/forget-account";
 import Message from "./page/massage";
 import HomeLoadingComponent from "../components/loadingComponent/homeLoadingComponent";
+import { fetchProfileInf } from "../utills/getProfileInf";
 
 export const router = createBrowserRouter([
     {
@@ -20,11 +21,13 @@ export const router = createBrowserRouter([
             },
             {
                 path:"/profile",
-                element:<Profile/>
+                element:<Profile/>,
+                loader : fetchProfileInf
             },
             {
                 path:"/profile/:username",
-                element:<Profile/>
+                element:<Profile/>,
+                loader : fetchProfileInf
             },
             {
                 path:"/chat",

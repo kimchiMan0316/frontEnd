@@ -7,8 +7,8 @@ export default function Protect({children}){
             credentials : "include",
         })
         if(response.status == 200){
-            console.log(response)
-        }else if(response.status === 400){
+            
+        }else{
             console.log(response)
             navigate("/login")
             return false

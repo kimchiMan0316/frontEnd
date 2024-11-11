@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import useProfileStore from "../../store/useProfile";
 
 const Wrap = styled.div`
     height: 50px;
@@ -35,9 +37,14 @@ const P = styled.p`
     }
 
 `
-export default function SearchInf({username, nickname, profileePhoto}){
+export default function SearchInf({username, nickname, profilePhoto, closeModal}){
+    const { userProfile } = useProfileStore();
+    const navigate = useNavigate()
+    const viewProfile = () =>{
+        navigate(`/profile/${username}`)
+    }
     return(
-        <Wrap>
+        <Wrap onClick={()=>{viewProfile();closeModal();}}>
             <PhotoArea>
                 <img src="./image/untityLogo.png" style={{width:"100%"}}/>
             </PhotoArea>

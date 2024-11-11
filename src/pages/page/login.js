@@ -107,7 +107,7 @@ export default function Login(){
         <Wrap>
             <Conteiner>
                 <ImageArea>
-                    <img src="./image/untityLogo.png" style={{width:"100%"}}/>
+                    <img src="https://design.co.kr/wp-content/uploads/2024/07/%EC%95%A0%ED%94%8C-3-832x1165.jpg" style={{width:"100%",height:'100%'}}/>
                 </ImageArea>
                 <LoginArea onSubmit={login}>
                     <Logo src="./image/untityLogo.png" style={{cursor:"pointer"}}/>

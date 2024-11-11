@@ -2,6 +2,7 @@ import styled from "styled-components"
 import LoginInput from "../InputComponent/Login/logininput";
 
 const Box = styled.div`
+    /* padding-left: 250px; */
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -11,6 +11,7 @@ import SearchModal from "../../components/modalComponent/searchModal";
 import { useEffect, useState } from "react";
 import { IoIosHeartEmpty } from "react-icons/io";
 import useScrollStore from "../../store/useScrollStore";
+import useProfileStore from "../../store/useProfile";
 
 
 
@@ -56,11 +57,21 @@ const Box = styled.div`
     width: 300px;
     height: 500px;
     background-color: aliceblue;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
 `
 
 export default function Layout(){
     const [modal, setModal] = useState()
     const navigate = useNavigate()
+    const { userProfile , getUserProfile} = useProfileStore();
+    
+    useEffect(()=>{
+        getUserProfile()
+    },[])
+    console.log(userProfile)
 
     const closeModal = () =>{
         setModal();
@@ -91,9 +102,29 @@ export default function Layout(){
                 </Bottom>
             </TopLayout>
             <Outlet/>
-            <BottomLayout>
+            <BottomLayout >
                 <Box>
-
+                    <P style={{marginTop:'16px'}}>추천 사이트</P>
+                    <BottomLayout>
+                        <div style={{display:'flex', height:'auto',alignItems:'center'}}>
+                            <BottomLayout style={{width:'40px',height:'40px',borderRadius:'50%',border:'1px solid black',display:'flex',alignItems:"center"}}>
+                                <img src="./image/untityLogo.png" style={{width:'100%'}}/>
+                            </BottomLayout>
+                            <ButtonComponent value='untity 채용'/>
+                        </div>
+                        <div style={{display:'flex', height:'auto',alignItems:'center'}}>
+                            <BottomLayout style={{width:'40px',height:'40px',borderRadius:'50%',border:'1px solid black',display:'flex',alignItems:"center"}}>
+                                <img src="./image/untityLogo.png" style={{width:'100%'}}/>
+                            </BottomLayout>
+                            <ButtonComponent value='박설호와 함께 일하기'/>
+                        </div>
+                        <div style={{display:'flex', height:'auto',alignItems:'center'}}>
+                            <BottomLayout style={{width:'40px',height:'40px',borderRadius:'50%',border:'1px solid black',display:'flex',alignItems:"center"}}>
+                                <img src="./image/untityLogo.png" style={{width:'100%'}}/>
+                            </BottomLayout>
+                            <ButtonComponent value='좌파틱하게 웹 디자인'/>
+                        </div>
+                    </BottomLayout>
                 </Box>
             </BottomLayout>
             {modal != null ? modal :null}

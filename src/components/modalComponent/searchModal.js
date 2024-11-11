@@ -102,7 +102,7 @@ export default function SearchModal({closeModal}){
                 </Layer>
                 <Line></Line>
                 <InfLayer>
-                    {searchInf.length == 0 ? null: searchState ? searchInf.map((item)=>(<SearchInf username={item.username} nickname={item.nickname} profileePhoto={item.profileePhoto}/>)):<Searching/>}
+                    {searchInf.length == 0 ? null: searchState ? searchInf.map((item)=>(<SearchInf closeModal={closeModal} username={item.username} nickname={item.nickname} profilePhoto={item.profilePhoto}/>)):<Searching/>}
                 </InfLayer>
             </Conteiner>
         </Wrap>

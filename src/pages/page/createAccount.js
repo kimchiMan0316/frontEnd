@@ -41,7 +41,7 @@ export default function CreateAccount(){
     const [ nickname, setNickname ] = useState("")
     const [ emailCode, setEmailCode ] = useState("")
     const [ modal, setModal] = useState(true)
-    const [ profilePhoto, setProfilePhoto] = useState(null)
+    const [ profilePhoto, setProfilePhoto] = useState()
 
     const handleEmail = (e) =>{
         const EMAIL = e.target.value;
@@ -103,6 +103,7 @@ export default function CreateAccount(){
             return;
         }
         const code = {
+            email : email,
             code : emailCode
         }
         console.log(code)

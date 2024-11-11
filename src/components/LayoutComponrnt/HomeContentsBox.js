@@ -8,6 +8,7 @@ import { FaHeart } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
 import moment from 'moment';
 import { formatTime } from "../../utills/formatTime";
+import { useNavigate } from "react-router-dom";
 
 const Wrap = styled.div`
     width: 500px;
@@ -112,6 +113,7 @@ const ArticleArea = styled.span`
 const Form = styled.form``
 
 export default function HomeContentsBox({item}){
+    const navigate = useNavigate()
     const [ comment, setComment] =useState("");
     const [ screen, setScreen] = useState(false)
     const [ postComment, setPostComment] = useState({})
@@ -120,7 +122,14 @@ export default function HomeContentsBox({item}){
     const [ likes, setLikes] = useState(post.likes);
     const [ liked, setLiked ] = useState(post.liked);
     const [ countComment, setcountComment] = useState(post.countComment);
-    
+    console.log(post)
+    // 프로필페이지로 이동
+    const moverProfile = () =>{
+        if(post.me){
+            navigate('/profile')
+        }
+        navigate(`/profile/${post.username}`)
+    }
     // 스크린 관리
     const closeScreen = () =>{
         setScreen(false)
@@ -133,7 +142,7 @@ export default function HomeContentsBox({item}){
     const sendComment = (e) => {
         e.preventDefault();
         const COMMENT = {
-            comment: comment
+            article: comment
         }
         fetch(`http://localhost:8080/api/comment/${item.id}`,{
             credentials :'include',
@@ -145,6 +154,7 @@ export default function HomeContentsBox({item}){
         })
         .then((Response)=>Response.json())
         .then((data)=>{
+            console.log(data)
             setcountComment((prev)=>prev+1)
             setComment("")
         })
@@ -194,13 +204,13 @@ export default function HomeContentsBox({item}){
                         <img src="./image/profile.jpeg" style={{width:"100%"}}/>
                     </ProfilePhoto>
                     <Div style={{display:"flex", flexDirection:"column",height:"100%",alignItems:"start", justifyContent:"center"}}>
-                        <Username>{item.username}</Username>
+                        <Username onClick={moverProfile}>{item.username}</Username>
                         <Nickname>{item.nickname}</Nickname>
                     </Div>
                     <Date> •{formatTime(post.createTime)}</Date>
                 </div>
-                <div style={{marginRight:'10px'}}>
-                    <SlOptions color={post.me ? "blue":"black"}/>
+                <div style={{marginRight:'10px',cursor:'pointer'}}>
+                    <SlOptions color={post.me ? "black":"black"}/>
                 </div>
             </ProfileLayer>
             <PhotoLayer>
