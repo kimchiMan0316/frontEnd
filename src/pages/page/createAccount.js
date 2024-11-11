@@ -42,6 +42,7 @@ export default function CreateAccount(){
     const [ emailCode, setEmailCode ] = useState("")
     const [ modal, setModal] = useState(true)
     const [ profilePhoto, setProfilePhoto] = useState()
+    const navigate = useNavigate()
 
     const handleEmail = (e) =>{
         const EMAIL = e.target.value;
@@ -62,7 +63,6 @@ export default function CreateAccount(){
     const handleEmailCode = (e) =>{
         setEmailCode(e.target.value)
     }
-    const navigate = useNavigate()
     
     const closeModal = () =>{
         setModal(true);
@@ -89,6 +89,7 @@ export default function CreateAccount(){
         .then((response)=>{
             console.log(response)
             if(response.status==200){
+                
             }else if(!response.status){
                 alert("이미 가입한 email입니다.")
             }
@@ -118,7 +119,7 @@ export default function CreateAccount(){
         .then((response)=>{
             console.log(response)
             if(response.status === 200){
-                setModal(false)
+                setModal(true)
                 setEmailState(true)
             }else if(response.status === 400){
                 setEmailCode("")
@@ -133,7 +134,10 @@ export default function CreateAccount(){
         if(!emailState && username,password,nickname == ""){
             return;
         }
-        const formData = new FormData();
+        if(!emailState){
+            alert('email인증을 진행해주세요')
+        }
+        var formData = new FormData();
         formData.append("username",username);
         formData.append("password",password);
         formData.append("nickname",nickname);
@@ -145,10 +149,12 @@ export default function CreateAccount(){
             method : 'POST',
             body: formData,
         })
+        .then((response)=>response.json())
         .then((response)=>{
-            if(response.status === 200){
-                return <Navigate to = "/login"/>
-            }else if(response.status === 400){
+            if(response.status == 200){
+                navigate("/login")
+                return 
+            }else if(response.status == 400){
                 alert(response.Text);
             }
         })

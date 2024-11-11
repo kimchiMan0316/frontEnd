@@ -40,7 +40,7 @@ export default function ForgetPassword(){
         
         const response = await fetch('http://localhost:8080/api/username',{
             credentials:'include',
-            method:'POST',
+            method:'PUT',
             headers:{
                 'Content-Type':'application/json'
             },

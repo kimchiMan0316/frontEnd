@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { IoPersonAdd } from "react-icons/io5";
 import { useLoaderData } from "react-router-dom";
 import ProfilePostPhotoBox from "../../components/LayoutComponrnt/ProfilePostPhotoBox";
 import FollowModal from "../../components/modalComponent/followModal";
-import OptionModal from "../../components/modalComponent/optionModal";
 import ProfileEditButton from "../../components/button/profileEditButton";
 
 const Wrap = styled.div`
@@ -88,35 +86,26 @@ const FollowButton = styled(ProfileEdit)`
 export default function Profile(){
     const userInf = useLoaderData();
     const [ followed, setFollowed ] = useState(userInf.followed);
-    const [ followState, setFollowState ] = useState(true);
+    const [ followState, setFollowState ] = useState();
     const [ followList , setFollowList ] = useState(false);
-    const [ optionModal, setOptionModal] = useState(false)
 
     console.log(userInf)
     const closeFollowModal = () =>{
 
         setFollowList(false)
     }
-    const closeOptionModal = () =>{
-        setOptionModal(false)
-    }
-
     const getFollowerList = () =>{
-        setFollowState(false)
+        setFollowState(true)
         setFollowList(true)
     }
     const getFollowedList = () =>{
-        setFollowState(true)
+        setFollowState(false)
         setFollowList(true)
     }
 
     useEffect(()=>{
         window.scrollTo({top:0,behavior:"instant"})
     },[])
-    // 프로필 관리
-    const editProfile = () =>{
-        setOptionModal(true)
-    }
     // 언팔로우
     const handleUnFollow = () =>{
         if(!followed){
@@ -167,16 +156,16 @@ export default function Profile(){
                             <span style={{fontWeight:'600',fontSize:'20px'}}>{userInf.username}</span>
                             <span style={{margin:'0 10px'}}>{userInf.nickname}</span>
                             <div>
-                                {userInf.me ? <ProfileEditButton onClick={editProfile} closeModal={closeOptionModal}/>: 
-                                    (followed? <Followed onClick={handleUnFollow} closeModal={closeOptionModal}/> : 
-                                        <NotFollowed onClick={handleFollowing} closeModal={closeOptionModal}/>)}
+                                {userInf.me ? <ProfileEditButton/>: 
+                                    (followed? <Followed onClick={handleUnFollow}/> : 
+                                        <NotFollowed onClick={handleFollowing}/>)}
                             </div>
                         </UsernameInf>
                         <AccountInf>
                             <span>게시글 {userInf.postCount}</span>
-                            <span style={{margin:"10px",cursor:'pointer'}} onClick={getFollowerList}>팔로워 {userInf.followerCount }</span>
+                            <span style={{margin:"10px",cursor:'pointer'}} onClick={getFollowerList}>팔로워 {userInf.followerCount}</span>
                             <span style={{cursor:'pointer'}} onClick={getFollowedList}>팔로잉 {userInf.followedCount}</span>
-                            {followList ? <FollowModal closeModal={closeFollowModal} username={userInf.username} useState={followState} me={userInf.me}/>:null}
+                            {followList ? <FollowModal closeModal={closeFollowModal} username={userInf.username} state={followState} me={userInf.me}/>:null}
                         </AccountInf>
                         <Message>
                             <span>{userInf.message}</span>
