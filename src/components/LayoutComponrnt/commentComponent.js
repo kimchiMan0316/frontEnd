@@ -3,6 +3,8 @@ import { FaHeart } from "react-icons/fa";
 import { formatTime } from "../../utills/formatTime";
 import { useState } from "react";
 import ReCommentComponent from "./ReCommentCoponent";
+import { useNavigate } from "react-router-dom";
+import LoginInput from "../InputComponent/Login/logininput";
 
 const Conteiner = styled.div`
     height: auto;
@@ -65,10 +67,18 @@ const ReReCommentBox = styled.div`
     height: auto;
     margin-left: 80px;
 `
+const Form = styled.form`
+    display: flex;
+    align-items: center;
+`
 export default function CommentBox({comment, postId}){
     const [ReCommentState, setReCommentState] = useState(false)
     const [ReComments, setReComments] = useState([])
+    const [RecommentForm, setRecommentForm] = useState(false)
+    const [createRecomment, setcreateRecomment] = useState("")
+    const navigate = useNavigate();
     console.log(comment)
+
     const fetchRecomment = () =>{
         fetch(`http://localhost:8080/api/recomment/${postId}/${comment.commentId}/0`,{
             credentials:'include'
@@ -80,23 +90,55 @@ export default function CommentBox({comment, postId}){
             setReCommentState(true)
         })
     }
-    console.log(comment)
+    const moveProfile = () =>{
+        const USERNAME = localStorage.getItem('username');
+        if(USERNAME == comment.username){
+            navigate("/profile")
+        }else{
+            navigate(`/profile/${comment.username}`)
+        }
+    }
+    // 대댓글 상태관리
+    const onChangeRecomment = (e) =>{
+        setcreateRecomment(e.target.value)
+    }
+    // 대댓글 발송
+    const SubmitRecomment = (e) =>{
+        e.preventDefault();
+        fetch(`http://localhost:8080/api/recomment/${postId}/${comment.commentId}`,{
+            credentials:'include',
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                article : createRecomment
+            })
+        })
+        .then((response)=>response.json())
+        .then((response)=>{
+            console.log(response)
+            setReComments((prev)=>[...prev, response])
+            setcreateRecomment("");
+        })
+    }
+
     return(
         <Conteiner>
             <Wrap>
                 <ProfileImage>
-                    <img src="./image/profile.jpeg" style={{width:"100%",}}/>
+                    <img src="./image/profile.jpeg" style={{width:"100%",}} onClick={moveProfile}/>
                 </ProfileImage>
                 <ProfileArea>
                     <UserInf>
-                        <Username>{comment.username}</Username>
+                        <Username onClick={moveProfile}>{comment.username}</Username>
                         <Comment>{comment.article}</Comment>
                     </UserInf>
                     <CommentInf>
                         <div style={{display:'flex', width:'100%',fontSize:"14px", color:"rgb(120 118 118)"}}>
                             <Date>{formatTime(comment.date)}</Date>
                             <Recomment>{comment.reCommentCount > 0 ? `좋아요 ${comment.reCommentCount}개`:""}</Recomment>
-                            <CreateReComment>답글 달기</CreateReComment>
+                            <CreateReComment onClick={()=>setRecommentForm((prev)=>!prev)}>답글 달기</CreateReComment>
                         </div>
                     </CommentInf>
                 </ProfileArea>
@@ -106,7 +148,13 @@ export default function CommentBox({comment, postId}){
             </Wrap>
             <ReReCommentBox>
                 {ReCommentState ? (ReComments.map((item)=>(<ReCommentComponent key={item.commentId} item={item}/>))): comment.reCommentCount > 0 ? <ReReComment onClick={fetchRecomment}>- 답글 보기({comment.reCommentCount})</ReReComment>:null}
+                {RecommentForm ? 
+                        (<Form onSubmit={SubmitRecomment}>
+                            <LoginInput type='text' height="24px" border='none' width="80%" placeholder={`@${comment.username} 댓글 달기...`} value={createRecomment} onChange={onChangeRecomment} padding="0 4px"/>
+                            <LoginInput type="submit" value="확인" backgroundColor="white" padding="0 4px" fontWeight="600" color={createRecomment ? "rgb(74 84 194)":"#b1b0b0"}/>
+                        </Form>):null}
             </ReReCommentBox>
         </Conteiner>
     )
 }
+

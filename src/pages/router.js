@@ -9,6 +9,9 @@ import ForgetAccount from "./page/forget-account/forget-account";
 import Message from "./page/massage";
 import HomeLoadingComponent from "../components/loadingComponent/homeLoadingComponent";
 import { fetchProfileInf } from "../utills/getProfileInf";
+import EditProfile from "./page/editProfile";
+import ErrorPage from "./page/ErrorPage";
+import HomePhotoBox from "../components/LayoutComponrnt/homePhoto";
 
 export const router = createBrowserRouter([
     {
@@ -31,7 +34,11 @@ export const router = createBrowserRouter([
             },
             {
                 path:"/chat",
-                element:<HomeLoadingComponent/>
+                element:<Message/>
+            },{
+                path:'/editProfile',
+                element:<EditProfile/>,
+                loader : fetchProfileInf
             }
         ]
     },
@@ -46,5 +53,13 @@ export const router = createBrowserRouter([
     {
         path:"forget-account",
         element:<ForgetAccount/>
+    },
+    {
+        path:"/*",
+        element:<ErrorPage/>
+    },
+    {
+        path:'/maruta',
+        element:<HomePhotoBox/>
     }
 ])

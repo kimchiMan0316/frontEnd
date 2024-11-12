@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { IoPersonAdd } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 
@@ -36,9 +34,7 @@ const ProfileEdit = styled.div`
     border-radius: 4px;
     cursor: pointer;
     padding: 10px;
-    &:hover{
-        background-color: #c9c9c9;
-    }
+    background-color: #c9c9c9;
 `
 const Conteiner = styled.div`
     z-index: 1002;
@@ -72,7 +68,6 @@ const OptionBox = styled.div`
     padding: 10px;
     margin: 4px;
     &:hover{
-        opacity: 0.8;
         background-color: #c9c9c9;
     }
 `
@@ -82,10 +77,19 @@ const Foot = styled.div`
     color:#c9c9c9;
     text-align: center;
 `
+const UnFollowBox = styled.div`
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #c9c9c9;
+    &:hover{
+        opacity: 0.8;
+    }
+`
 
-export default function ProfileEditButton(){
+export default function UnFollowModal({closeUnFollowModal, followed, userInf}){
     const [optionModal, setOptionModal] = useState(false)
-    const navigate = useNavigate()
     
     const openModal = () =>{
         setOptionModal(true)
@@ -94,21 +98,35 @@ export default function ProfileEditButton(){
         e.stopPropagation()
         setOptionModal(false)
     }
-   
-    const moveEditProfile = () =>{
-        navigate('/editProfile')
-    }   
+    const handleUnFollow = () =>{
+        if(!followed){
+            console.log(followed)
+            return;
+        }
+        closeUnFollowModal()
+        fetch(`http://localhost:8080/api/unfollow?followedId=${userInf.username}`,{
+            credentials : 'include' ,
+            method : 'POST',
+        })
+        .then((response)=>{
+            console.log(response)
+            if(response.status == 200){
+            }else{
+                return;
+            }
+        })
+    }
 
     return(
         <ProfileEdit onClick={openModal}>
-            <IoPersonAdd color="black" fill="black"/>
+            <UnFollowBox>팔로잉</UnFollowBox>
             { optionModal ? 
             <Wrap>
                 <CloseDiv onClick={closeModal}></CloseDiv>
                 <Conteiner>
-                    <Title>프로필</Title>
+                    <Title>팔로잉</Title>
                     <Box>
-                        <OptionBox onClick={moveEditProfile}>프로필 편집</OptionBox>
+                        <OptionBox onClick={handleUnFollow}>팔로잉 취소</OptionBox>
                         <OptionBox onClick={closeModal} style={{color:'red'}}>취소</OptionBox> 
                     </Box>
                     <Foot>untity</Foot>
@@ -118,4 +136,3 @@ export default function ProfileEditButton(){
         </ProfileEdit>
     )
 }
-

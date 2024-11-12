@@ -9,6 +9,7 @@ import { SlOptions } from "react-icons/sl";
 import moment from 'moment';
 import { formatTime } from "../../utills/formatTime";
 import { useNavigate } from "react-router-dom";
+import EditPost from "../modalComponent/editPost";
 
 const Wrap = styled.div`
     width: 500px;
@@ -122,7 +123,8 @@ export default function HomeContentsBox({item}){
     const [ likes, setLikes] = useState(post.likes);
     const [ liked, setLiked ] = useState(post.liked);
     const [ countComment, setcountComment] = useState(post.countComment);
-    console.log(post)
+    const [ editPostModal, setEditPostModal] = useState(false)
+    console.log(post.me)
     // 프로필페이지로 이동
     const moverProfile = () =>{
         if(post.me){
@@ -185,6 +187,7 @@ export default function HomeContentsBox({item}){
         }
         
     }
+    // 스크린 모달 띄우기
     const onScreen = () =>{
         fetch(`http://localhost:8080/api/comment/${post.id}/0`,{
             credentials:'include'
@@ -195,6 +198,18 @@ export default function HomeContentsBox({item}){
             setPostComment(data)
         })
         setScreen(true)
+    }
+    // 글 삭제 모달
+    const editPost = (e) =>{
+        e.stopPropagation();
+        if(!post.me){
+            return;
+        }
+        setEditPostModal(true)
+    }
+    // 글 삭제 모달 끄기
+    const closeEditModal = () =>{
+        setEditPostModal(false)
     }
     return(
         <Wrap id={item.id}>
@@ -210,7 +225,8 @@ export default function HomeContentsBox({item}){
                     <Date> •{formatTime(post.createTime)}</Date>
                 </div>
                 <div style={{marginRight:'10px',cursor:'pointer'}}>
-                    <SlOptions color={post.me ? "black":"black"}/>
+                    <SlOptions color={post.me ? "black":"black"} onClick={editPost}/>
+                    {editPostModal ? <EditPost closeModal={closeEditModal} postId={post.id}/>:null}
                 </div>
             </ProfileLayer>
             <PhotoLayer>
@@ -241,7 +257,7 @@ export default function HomeContentsBox({item}){
                 <Acticle>
                     <Div name="article" style={{fontSize:"14px",fontWeight:"600", cursor:"pointer"}}>{likes > 0 ? `좋아요 ${likes}`:""}</Div>
                     <Div name="article" style={{fontSize:"16px", display:"flex"}}>
-                        <NicknameArea >{item.nickname}</NicknameArea>
+                        <NicknameArea onClick={moverProfile}>{item.nickname}</NicknameArea>
                         <ArticleArea className="article">{item.article}</ArticleArea>
                     </Div>
                     <Div name="article" style={{cursor:"pointer"}} onClick={onScreen}>

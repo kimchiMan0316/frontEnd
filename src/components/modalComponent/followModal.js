@@ -70,6 +70,9 @@ const Profile = styled.div`
     display: flex;
 `
 const ImageArea = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid black;
     border-radius: 50%;
     width: 36px;
@@ -77,10 +80,11 @@ const ImageArea = styled.div`
     margin-right: 10px;
 `
 const ProfileArea = styled.div`
+
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: start;
+    align-items: start;
+    justify-content: center;
 `
 const Username = styled.div`
     font-size: 16px;

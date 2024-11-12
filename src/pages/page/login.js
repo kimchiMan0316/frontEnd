@@ -59,6 +59,14 @@ const AtherLogin = styled(Wrap)`
     height: 60px;
     width: 80%;
 `
+const KakaoLogin = styled.div`
+    width: 310px;
+    height: 44px;
+    cursor: pointer;
+    &:hover{
+        opacity: 0.80;
+    }
+`
 export default function Login(){
     const [id, setId] = useState()
     const [password, setPassword] = useState()
@@ -113,10 +121,12 @@ export default function Login(){
                     <Logo src="./image/untityLogo.png" style={{cursor:"pointer"}}/>
                     <LoginInput type="text" width="310px" height="40px" fontSize="16px" value={id} onChange={onChangeId} placeholder={"아이디"} padding="0 8px" minLength={2}/>
                     <LoginInput type="password" width="310px" height="40px" fontSize="16px" value={password} onChange={onChangePassword} placeholder={"비밀번호"} padding="0 8px" minLength={2}/>
-                    <LoginInput type="submit" width="310px" height="35px" fontSize="16px" value="로그인"/>
+                    <LoginInput type="submit" width="310px" height="40px" fontSize="16px" value="로그인"/>
                     <P>아직 계정이 없으신가요 ? <Link to="/create-account" style={linkStyle}>계정 만들기</Link></P>
                     <AtherLogin>
-                        <button style={{width:"328px",height:"35px", border:"none", fontSize:"16px"}}>카카오로 로그인하기</button>
+                        <KakaoLogin>
+                            <img src="./image/kakao_login.png" style={{width:'100%',height:'100%'}}/>
+                        </KakaoLogin>
                     </AtherLogin>
                     <div style={{display:"flex",marginTop:"10px" , alignItems:"bottom"}}>
                         <P name="forget" onClick={forgetAccount}>아이디/비밀번호를 잊어버리셨나요?</P>

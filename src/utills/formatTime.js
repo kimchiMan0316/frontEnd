@@ -26,7 +26,7 @@ export const formatTime = (time) =>{
         nowTime = `${(month-MONTH)*4}주`
     }else if(day-DAY>6&&day-DAY<28){
         nowTime = `${(day-DAY)}주`
-    }else if(day-DAY!==0){
+    }else if(day-DAY!=0){
         nowTime = `${day-DAY}일`
     }else if(hour-HOUR !== 0){
         nowTime = `${hour-HOUR}시간`

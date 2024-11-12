@@ -4,9 +4,6 @@ import usePost from "../../store/usePost"
 import { useEffect, useState } from "react";
 import useScrollStore from "../../store/useScrollStore";
 import HomeLoadingComponent from "../../components/loadingComponent/homeLoadingComponent";
-import useProfileStore from "../../store/useProfile";
-
-
 
 const Wrap = styled.div`
     padding-left: 250px;
@@ -17,6 +14,7 @@ const Wrap = styled.div`
     width: 1100px;
     height: auto;
     background-color: white;
+    transition: all 0.3s ease-in-out;
 `
 
 export default function Home(){
@@ -54,7 +52,7 @@ export default function Home(){
     return(
         <Wrap>
             {/* <button onClick={offsetChange}>버튼</button> */}
-            {loading ? post.map((item)=>(<HomeContentsBox key={item.id} item={item}/>)):<HomeLoadingComponent/>}
+            {post ? post.map((item)=>(<HomeContentsBox key={item.id} item={item}/>)):<HomeLoadingComponent/>}
         </Wrap>
     )
 }

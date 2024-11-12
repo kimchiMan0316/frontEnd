@@ -7,6 +7,8 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { RiChat3Line } from "react-icons/ri";
 import { formatTime } from "../../utills/formatTime";
+import EditPost from "./editPost";
+import { useNavigate } from "react-router-dom";
 
 const Wrap = styled.div`
     z-index: 50;
@@ -65,6 +67,7 @@ const ProfileArea = styled.div`
     }
 `
 const Article = styled.div`
+    transition: all 0.5s ease-in-out;
     width: 100%;
     min-height: 600px;
     overflow: hidden;
@@ -142,11 +145,18 @@ export default function Screen({closeScreen, post, postComment}){
     const [review, setReview] = useState("");
     const [ likes, setLikes] = useState(post.likes);
     const [ liked, setLiked ] = useState(post.liked);
+    const [ editPost, setEditPost ] = useState(false);
+    const navigate = useNavigate();
+    
     console.log(post)
+    console.log(post.Comment)
+
+    const closeEditPost = () =>{
+        setEditPost(false)
+    }
     const changereView = (e) =>{
         setReview(e.target.value);
     }
-
     // 댓글 작성하기
     const createComment = (e) =>{
         e.preventDefault();
@@ -165,8 +175,9 @@ export default function Screen({closeScreen, post, postComment}){
             })
             .then((Response)=>Response.json())
             .then((data)=>{
+
                 console.log(data);
-                post.comments = [post.comments,{...data}]
+                comment.push({...data})
                 setReview("")
         })
     }
@@ -192,6 +203,21 @@ export default function Screen({closeScreen, post, postComment}){
             }
         })
     }
+    // 프로필로 이동하기
+    const moveProfile = () =>{
+        const USERNAME = localStorage.getItem('username');
+        if(USERNAME == post.username){
+            navigate("/profile")
+        }else{
+            navigate(`/profile/${post.username}`)
+        }
+    }
+    const handleEditPost = () =>{
+        if(!post.me){
+            return
+        }
+        setEditPost(true)
+    }
 
     return(
         <Wrap>
@@ -205,21 +231,22 @@ export default function Screen({closeScreen, post, postComment}){
                 <ArticleArea>
                     <ProfileArea>
                         <div style={{display:'flex'}}>
-                            <ProfileArea name="profile">
+                            <ProfileArea name="profile" style={{cursor:'pointer'}}  onClick={moveProfile}>
                                 <img src="./image/untityLogo.png" style={{width:"100%"}}/>
                             </ProfileArea>
-                            <div style={{display:'flex',flexDirection:"column"}}>
+                            <div style={{display:'flex',flexDirection:"column", cursor:'pointer'}} onClick={moveProfile}>
                                 <span style={{fontWeight:"600"}}>{post.username}</span>
                                 <span style={{fontSize:"14px"}}>{post.nickname}</span>
                             </div>
                         </div>
                         <div style={{width:"30px",height:'30px', display:'flex',alignItems:'center'}}>
-                            <SlOptions color={post.me ? "blue":"black"}/>
+                            <SlOptions color={post.me ? "black":"black"} style={{cursor:'pointer'}} onClick={handleEditPost}/>
+                            {editPost ? <EditPost closeModal={closeEditPost}/>:null}
                         </div>
                     </ProfileArea>
                     <Article>
                         <Content>
-                            <P name="username">{post.username}</P>
+                            <P name="username" onClick={moveProfile}>{post.username}</P>
                             <P>{post.article}</P>
                             <Date>{`${formatTime(post.createTime)}`}</Date>
                         </Content>

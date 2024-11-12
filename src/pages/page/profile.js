@@ -4,6 +4,7 @@ import { useLoaderData } from "react-router-dom";
 import ProfilePostPhotoBox from "../../components/LayoutComponrnt/ProfilePostPhotoBox";
 import FollowModal from "../../components/modalComponent/followModal";
 import ProfileEditButton from "../../components/button/profileEditButton";
+import UnFollowModal from "../../components/modalComponent/unFollowModal";
 
 const Wrap = styled.div`
     padding-left: 250px;
@@ -107,23 +108,8 @@ export default function Profile(){
         window.scrollTo({top:0,behavior:"instant"})
     },[])
     // 언팔로우
-    const handleUnFollow = () =>{
-        if(!followed){
-            console.log(followed)
-            return;
-        }
+    const closeUnFollowModal = () =>{
         setFollowed(false)
-        fetch(`http://localhost:8080/api/unfollow?followedId=${userInf.username}`,{
-            credentials : 'include' ,
-            method : 'POST',
-        })
-        .then((response)=>{
-            console.log(response)
-            if(response.status == 200){
-            }else{
-                return;
-            }
-        })
     }
     // 팔로우
     const handleFollowing = () =>{
@@ -157,7 +143,7 @@ export default function Profile(){
                             <span style={{margin:'0 10px'}}>{userInf.nickname}</span>
                             <div>
                                 {userInf.me ? <ProfileEditButton/>: 
-                                    (followed? <Followed onClick={handleUnFollow}/> : 
+                                    (followed? <UnFollowModal closeUnFollowModal={closeUnFollowModal} followed={followed} userInf={userInf}/> : 
                                         <NotFollowed onClick={handleFollowing}/>)}
                             </div>
                         </UsernameInf>
@@ -181,12 +167,6 @@ export default function Profile(){
     )
 }
 
-
-const Followed = ({onClick}) =>{
-    return(
-        <FollowButton onClick={onClick}>팔로잉</FollowButton>
-    )
-}
 const NotFollowed = ({onClick}) =>{
     const buttonStyle = {
         backgroundColor : "#0095f6",

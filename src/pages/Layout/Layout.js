@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { IoIosHeartEmpty } from "react-icons/io";
 import useScrollStore from "../../store/useScrollStore";
 import useProfileStore from "../../store/useProfile";
+import CreatePostModal from "../../components/modalComponent/createPostModal";
 
 
 
@@ -67,6 +68,7 @@ export default function Layout(){
     const [modal, setModal] = useState()
     const navigate = useNavigate()
     const { userProfile , getUserProfile} = useProfileStore();
+    const [createPostModal, setCreatePostModal] = useState(false)
     
     useEffect(()=>{
         getUserProfile()
@@ -75,6 +77,12 @@ export default function Layout(){
 
     const closeModal = () =>{
         setModal();
+    }
+    const closeCreatePostModal = () =>{
+        setCreatePostModal(false)
+    }
+    const openCreatePostModal = () =>{
+        setCreatePostModal(true)
     }
     const searchModal = () =>{
         setModal(<SearchModal closeModal={closeModal}/>)
@@ -90,7 +98,7 @@ export default function Layout(){
                     <ButtonComponent value="검색" icon={<FiSearch size={24}/>} onClick={searchModal} />
                     <ButtonComponent value="채팅" icon={<IoChatbubbleOutline size={24}/>}  onClick={()=>{navigate("/chat")}}/>
                     <ButtonComponent value="알림" icon={<IoIosHeartEmpty size={24}/>}/>
-                    <ButtonComponent textDecoration="none" value="게시글 작성" icon={<LuPlusSquare size={24} />}/>
+                    <ButtonComponent value="게시글 작성" icon={<LuPlusSquare size={24} />} onClick={openCreatePostModal}/>
                     <Conteiner>
                         <P>개인설정</P>
                         <ButtonComponent value="프로필" icon={<Profile/>}  onClick={()=>{navigate("/profile")}}/>
@@ -128,6 +136,7 @@ export default function Layout(){
                 </Box>
             </BottomLayout>
             {modal != null ? modal :null}
+            { createPostModal ? <CreatePostModal closeModal={closeCreatePostModal}/>:null}
         </Wrap>
     )
 }
