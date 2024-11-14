@@ -9,9 +9,11 @@ import { RiChat3Line } from "react-icons/ri";
 import { formatTime } from "../../utills/formatTime";
 import EditPost from "./editPost";
 import { useNavigate } from "react-router-dom";
+import nerd from "../../assets/image/nerd.JPEG"
+import logo from "../../assets/image/untityLogo.png"
 
 const Wrap = styled.div`
-    z-index: 50;
+    z-index: 1000;
     position: fixed;
     top: 0;
     left: 0;
@@ -23,14 +25,14 @@ const Wrap = styled.div`
     background-color: rgba(0,0,0,0.8);
 `
 const CloseBox = styled.div`
-    z-index: 100;
+    z-index: 1000;
     width: 100%;
     height: 100%;
     position: fixed;
 
 `
 const Conteiner = styled.div`
-    z-index: 101;
+    z-index: 1001;
     width: 1200px;
     height: 800px;
     display: flex;
@@ -177,7 +179,7 @@ export default function Screen({closeScreen, post, postComment}){
             .then((data)=>{
 
                 console.log(data);
-                comment.push({...data})
+                comment.unshift({...data})
                 setReview("")
         })
     }
@@ -225,14 +227,14 @@ export default function Screen({closeScreen, post, postComment}){
             <Conteiner>
                 <ImageArea>
                     <div>
-                        <img src="./image/nerd.JPEG" style={{width:"100%"}}/>
+                        <img src={nerd} style={{width:"100%"}}/>
                     </div>
                 </ImageArea>
                 <ArticleArea>
                     <ProfileArea>
                         <div style={{display:'flex'}}>
                             <ProfileArea name="profile" style={{cursor:'pointer'}}  onClick={moveProfile}>
-                                <img src="./image/untityLogo.png" style={{width:"100%"}}/>
+                                <img src={logo} style={{width:"100%"}}/>
                             </ProfileArea>
                             <div style={{display:'flex',flexDirection:"column", cursor:'pointer'}} onClick={moveProfile}>
                                 <span style={{fontWeight:"600"}}>{post.username}</span>

@@ -4,6 +4,8 @@ import { Footer } from "../../components/LayoutComponrnt/LayoutComponent"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { linkStyle } from "../../utills/linkStyle"
+import logo from "../../assets/image/untityLogo.png"
+import kakaoLogin from "../../assets/image/kakao_login.png"
 
 
 
@@ -118,14 +120,14 @@ export default function Login(){
                     <img src="https://design.co.kr/wp-content/uploads/2024/07/%EC%95%A0%ED%94%8C-3-832x1165.jpg" style={{width:"100%",height:'100%'}}/>
                 </ImageArea>
                 <LoginArea onSubmit={login}>
-                    <Logo src="./image/untityLogo.png" style={{cursor:"pointer"}}/>
+                    <Logo src={logo} style={{cursor:"pointer"}}/>
                     <LoginInput type="text" width="310px" height="40px" fontSize="16px" value={id} onChange={onChangeId} placeholder={"아이디"} padding="0 8px" minLength={2}/>
                     <LoginInput type="password" width="310px" height="40px" fontSize="16px" value={password} onChange={onChangePassword} placeholder={"비밀번호"} padding="0 8px" minLength={2}/>
                     <LoginInput type="submit" width="310px" height="40px" fontSize="16px" value="로그인"/>
                     <P>아직 계정이 없으신가요 ? <Link to="/create-account" style={linkStyle}>계정 만들기</Link></P>
                     <AtherLogin>
                         <KakaoLogin>
-                            <img src="./image/kakao_login.png" style={{width:'100%',height:'100%'}}/>
+                            <img src={kakaoLogin} style={{width:'100%',height:'100%'}}/>
                         </KakaoLogin>
                     </AtherLogin>
                     <div style={{display:"flex",marginTop:"10px" , alignItems:"bottom"}}>

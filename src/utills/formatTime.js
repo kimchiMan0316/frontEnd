@@ -20,9 +20,14 @@ export const formatTime = (time) =>{
     // console.log(year, month, day,hour,minute, second)
 
     let nowTime;
+
+    
+    // 수정해야함 날짜 오류 
+
+
     if(year-YEAR!==0){
         nowTime = `${year-YEAR}년`
-    }else if(month-MONTH!==0){
+    }else if(month-MONTH !==0){
         nowTime = `${(month-MONTH)*4}주`
     }else if(day-DAY>6&&day-DAY<28){
         nowTime = `${(day-DAY)}주`
@@ -38,3 +43,4 @@ export const formatTime = (time) =>{
     // console.log(nowTime);
     return nowTime;
 }
+

@@ -5,6 +5,7 @@ import { Footer } from "../../components/LayoutComponrnt/LayoutComponent"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import Modal from "../../components/modalComponent/Emailmodal"
 import { linkStyle } from "../../utills/linkStyle"
+import logo from "../../assets/image/untityLogo.png"
 
 
 const Wrap = styled.div`
@@ -41,7 +42,7 @@ export default function CreateAccount(){
     const [ nickname, setNickname ] = useState("")
     const [ emailCode, setEmailCode ] = useState("")
     const [ modal, setModal] = useState(true)
-    const [ profilePhoto, setProfilePhoto] = useState()
+    const [ profilePhoto, setProfilePhoto] = useState(null)
     const navigate = useNavigate()
 
     const handleEmail = (e) =>{
@@ -131,39 +132,48 @@ export default function CreateAccount(){
     // 회원가입
     const handleSignIn = (e) =>{
         e.preventDefault();
-        if(!emailState && username,password,nickname == ""){
+        if (!emailState) {
+            alert("Email 인증을 진행해주세요.");
             return;
         }
-        if(!emailState){
-            alert('email인증을 진행해주세요')
+        if (username === "" || password === "" || nickname === "") {
+            alert("모든 필드를 입력해주세요.");
+            return;
         }
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("username",username);
         formData.append("password",password);
         formData.append("nickname",nickname);
         formData.append("email",email);
-        formData.append("profilePhoto", profilePhoto);
+        if (profilePhoto) {
+            formData.append("profilePhoto", profilePhoto);
+        }
 
         fetch("http://localhost:8080/api/sign-in", {
             credentials : "include",
             method : 'POST',
             body: formData,
         })
-        .then((response)=>response.json())
         .then((response)=>{
-            if(response.status == 200){
-                navigate("/login")
-                return 
-            }else if(response.status == 400){
-                alert(response.Text);
+            if(response.ok){
+                return response.json()
+            } else{
+                throw new Error('회원가입 실패');
             }
+        })
+        .then((response)=>{
+            console.log(response)
+            navigate("/login")
+        })
+        .catch((error)=>{
+            console.error(error)
         })
     }
 
     return(
         <Wrap>
             <Box onSubmit={handleSignIn}>
-                <img src="./image/untityLogo.png" style={{width:"260px", cursor:"pointer"}} onClick={()=>navigate("/login")}/>
+                <img src={logo} style={{width:"260px", cursor:"pointer"}} onClick={()=>navigate("/login")}/>
                 <P>운티티에서 친구들과 소통해요.</P>
                 <LoginInput type="text" width="300px" height="40px" padding="0 8px" placeholder="아이디" value={username} onChange={handleUsername} minLength={6}/>
                 <LoginInput type="password" width="300px" height="40px" padding="0 8px" placeholder="비밀번호" value={password} onChange={handlePassword} minLength={6}/>

@@ -7,7 +7,13 @@ const useProfileStore = create((set)=>(
             fetch('http://localhost:8080/api/user',{
                 credentials:'include'
             })
-            .then((response)=>response.json())
+            .then((response)=>{
+                if(response.ok){
+                    return response.json()
+                }else{
+                    return console.log(response)
+                }
+            })
             .then((response)=>{
                 set(()=>({userProfile : {response}}))
                 localStorage.setItem("username",response.username);

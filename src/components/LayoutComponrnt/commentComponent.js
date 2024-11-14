@@ -5,6 +5,7 @@ import { useState } from "react";
 import ReCommentComponent from "./ReCommentCoponent";
 import { useNavigate } from "react-router-dom";
 import LoginInput from "../InputComponent/Login/logininput";
+import logo from "../../assets/image/untityLogo.png"
 
 const Conteiner = styled.div`
     height: auto;
@@ -118,7 +119,7 @@ export default function CommentBox({comment, postId}){
         .then((response)=>response.json())
         .then((response)=>{
             console.log(response)
-            setReComments((prev)=>[...prev, response])
+            setReComments((prev)=>[ {...response},...prev])
             setcreateRecomment("");
         })
     }
@@ -127,7 +128,7 @@ export default function CommentBox({comment, postId}){
         <Conteiner>
             <Wrap>
                 <ProfileImage>
-                    <img src="./image/profile.jpeg" style={{width:"100%",}} onClick={moveProfile}/>
+                    <img src={logo} style={{width:"100%",}} onClick={moveProfile}/>
                 </ProfileImage>
                 <ProfileArea>
                     <UserInf>

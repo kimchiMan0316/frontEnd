@@ -6,10 +6,12 @@ import Screen from "../modalComponent/screenModal";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { SlOptions } from "react-icons/sl";
-import moment from 'moment';
 import { formatTime } from "../../utills/formatTime";
 import { useNavigate } from "react-router-dom";
 import EditPost from "../modalComponent/editPost";
+import HomePhotoBox from "./homePhoto";
+import LikeListModal from "../modalComponent/likeLIst";
+import profile from "../../assets/image/profile.jpeg"
 
 const Wrap = styled.div`
     width: 500px;
@@ -123,11 +125,13 @@ export default function HomeContentsBox({item}){
     const [ likes, setLikes] = useState(post.likes);
     const [ liked, setLiked ] = useState(post.liked);
     const [ countComment, setcountComment] = useState(post.countComment);
+
     const [ editPostModal, setEditPostModal] = useState(false)
-    console.log(post.me)
+    const [ likeListModal, setLikeListModal] = useState(false)
+
     // 프로필페이지로 이동
-    const moverProfile = () =>{
-        if(post.me){
+    const moveProfile = () =>{
+        if(item.me){
             navigate('/profile')
         }
         navigate(`/profile/${post.username}`)
@@ -211,15 +215,21 @@ export default function HomeContentsBox({item}){
     const closeEditModal = () =>{
         setEditPostModal(false)
     }
+    const isLikeListModal = () =>{
+        setLikeListModal(true)
+    }
+    const closeLikeListModal = () =>{
+        setLikeListModal(false)
+    }
     return(
         <Wrap id={item.id}>
             <ProfileLayer>
                 <div style={{height:'100%',justifyContent:"center",display:"flex",alignItems:'center'}}>
                     <ProfilePhoto>
-                        <img src="./image/profile.jpeg" style={{width:"100%"}}/>
+                        <img src={profile} style={{width:"100%"}}/>
                     </ProfilePhoto>
                     <Div style={{display:"flex", flexDirection:"column",height:"100%",alignItems:"start", justifyContent:"center"}}>
-                        <Username onClick={moverProfile}>{item.username}</Username>
+                        <Username onClick={moveProfile}>{item.username}</Username>
                         <Nickname>{item.nickname}</Nickname>
                     </Div>
                     <Date> •{formatTime(post.createTime)}</Date>
@@ -230,7 +240,8 @@ export default function HomeContentsBox({item}){
                 </div>
             </ProfileLayer>
             <PhotoLayer>
-                <img src="./image/nerd.JPEG" style={{width:"100%", height:"100%"}}/>
+                {/* 이미지슬라이더 */}
+                <HomePhotoBox postImage={post.postImage}/>
             </PhotoLayer>
             <ArticleLayer>
                 <InfLayer>
@@ -255,9 +266,10 @@ export default function HomeContentsBox({item}){
                     </LikeButton>   
                 </InfLayer>
                 <Acticle>
-                    <Div name="article" style={{fontSize:"14px",fontWeight:"600", cursor:"pointer"}}>{likes > 0 ? `좋아요 ${likes}`:""}</Div>
+                    <Div name="article" style={{fontSize:"14px",fontWeight:"600", cursor:"pointer"}} onClick={isLikeListModal}>{likes > 0 ? `좋아요 ${likes}`:""}</Div>
+                    {likeListModal ? <LikeListModal closeModal={closeLikeListModal} postId={post.id}/>:null}
                     <Div name="article" style={{fontSize:"16px", display:"flex"}}>
-                        <NicknameArea onClick={moverProfile}>{item.nickname}</NicknameArea>
+                        <NicknameArea onClick={moveProfile}>{item.nickname}</NicknameArea>
                         <ArticleArea className="article">{item.article}</ArticleArea>
                     </Div>
                     <Div name="article" style={{cursor:"pointer"}} onClick={onScreen}>

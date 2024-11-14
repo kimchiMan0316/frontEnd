@@ -10,9 +10,11 @@ import { SlOptions } from "react-icons/sl";
 import SearchModal from "../../components/modalComponent/searchModal";
 import { useEffect, useState } from "react";
 import { IoIosHeartEmpty } from "react-icons/io";
-import useScrollStore from "../../store/useScrollStore";
 import useProfileStore from "../../store/useProfile";
-import CreatePostModal from "../../components/modalComponent/createPostModal";
+import CreatePostModal from "../../components/modalComponent/createPostModal/createPostModal";
+
+import logoImg from "../../assets/image/untityLogo.png"
+import OptionModal from "../../components/modalComponent/sideModal/optionModal";
 
 
 
@@ -23,7 +25,7 @@ const Wrap = styled.div`
 const TopLayout = styled.div`
     background-color: aqua;
     position: fixed;
-    border-right: 1px solid gray;
+    border-right: 1px solid #d9d9d9;
     left: 0;
     display: flex;
     justify-content: space-between;
@@ -69,23 +71,30 @@ export default function Layout(){
     const navigate = useNavigate()
     const { userProfile , getUserProfile} = useProfileStore();
     const [createPostModal, setCreatePostModal] = useState(false)
+    const [ optionModal, setOptionModal] = useState(false)
     
+    // 사용자 프로필 전역으로 받아오기
     useEffect(()=>{
         getUserProfile()
     },[])
-    console.log(userProfile)
 
     const closeModal = () =>{
         setModal();
     }
+    // 하단 게시글 작성 모달
     const closeCreatePostModal = () =>{
         setCreatePostModal(false)
     }
     const openCreatePostModal = () =>{
         setCreatePostModal(true)
     }
+    // 검색모달 핸들링
     const searchModal = () =>{
         setModal(<SearchModal closeModal={closeModal}/>)
+    }
+    // 사이드 옵션 모달 핸들링
+    const closeOptionModal = () =>{
+        setOptionModal(false)
     }
     
     
@@ -93,7 +102,7 @@ export default function Layout(){
         <Wrap>
             <TopLayout>
                 <Top>
-                    <img src="./image/untityLogo.png" style={{width: "50%", margin:"20px 0", cursor:"pointer"}} />
+                    <img src={logoImg} style={{width: "50%", margin:"20px 0", cursor:"pointer"}} />
                     <ButtonComponent value="홈" icon={<AiFillHome size={24}/>} onClick={()=>{navigate("/")}}/>
                     <ButtonComponent value="검색" icon={<FiSearch size={24}/>} onClick={searchModal} />
                     <ButtonComponent value="채팅" icon={<IoChatbubbleOutline size={24}/>}  onClick={()=>{navigate("/chat")}}/>
@@ -105,7 +114,7 @@ export default function Layout(){
                     </Conteiner>
                 </Top>
                 <Bottom>
-                    <ButtonComponent value="설정" icon={<SlOptions />}/>
+                    <ButtonComponent value="설정" onClick={()=>setOptionModal((prev)=>!prev)} icon={<SlOptions />}/>
                     <ButtonComponent value="더보기" icon={<IoMdOptions />}/>
                 </Bottom>
             </TopLayout>
@@ -116,19 +125,19 @@ export default function Layout(){
                     <BottomLayout>
                         <div style={{display:'flex', height:'auto',alignItems:'center'}}>
                             <BottomLayout style={{width:'40px',height:'40px',borderRadius:'50%',border:'1px solid black',display:'flex',alignItems:"center"}}>
-                                <img src="./image/untityLogo.png" style={{width:'100%'}}/>
+                                <img src={logoImg} style={{width:'100%'}}/>
                             </BottomLayout>
                             <ButtonComponent value='untity 채용'/>
                         </div>
                         <div style={{display:'flex', height:'auto',alignItems:'center'}}>
                             <BottomLayout style={{width:'40px',height:'40px',borderRadius:'50%',border:'1px solid black',display:'flex',alignItems:"center"}}>
-                                <img src="./image/untityLogo.png" style={{width:'100%'}}/>
+                                <img src={logoImg} style={{width:'100%'}}/>
                             </BottomLayout>
                             <ButtonComponent value='박설호와 함께 일하기'/>
                         </div>
                         <div style={{display:'flex', height:'auto',alignItems:'center'}}>
                             <BottomLayout style={{width:'40px',height:'40px',borderRadius:'50%',border:'1px solid black',display:'flex',alignItems:"center"}}>
-                                <img src="./image/untityLogo.png" style={{width:'100%'}}/>
+                                <img src={logoImg} style={{width:'100%'}}/>
                             </BottomLayout>
                             <ButtonComponent value='좌파틱하게 웹 디자인'/>
                         </div>
@@ -137,6 +146,7 @@ export default function Layout(){
             </BottomLayout>
             {modal != null ? modal :null}
             { createPostModal ? <CreatePostModal closeModal={closeCreatePostModal}/>:null}
+            { optionModal ? <OptionModal closeModal={closeOptionModal}/>:null}
         </Wrap>
     )
 }
@@ -149,7 +159,7 @@ const Profile = ({Profile}) =>{
             width:"26px",
             height:"26px"
         }}>
-            <img style={{width:"100%"}} src="./image/untityLogo.png"/>
+            <img style={{width:"100%"}} src={logoImg}/>
         </div>
     )
 }

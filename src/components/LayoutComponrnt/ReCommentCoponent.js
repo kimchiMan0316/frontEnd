@@ -1,6 +1,8 @@
 import styled from "styled-components"
 import { formatTime } from "../../utills/formatTime"
 
+import img from "../../assets/image/untityLogo.png"
+
 const Wrap = styled.div`
     display:flex;
     align-items: start;
@@ -28,7 +30,7 @@ export default function ReCommentComponent({item}){
     return(
         <Wrap>
             <ProfileImage>
-                <img src="./image/untityLogo.png" style={{width:"100%"}}/>
+                <img src={img} style={{width:"100%"}}/>
             </ProfileImage>
             <Profile>
                 <div style={{display:'flex'}}>

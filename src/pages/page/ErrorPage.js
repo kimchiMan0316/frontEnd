@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import logo from "../../assets/image/untityLogo.png"
 
 const Wrap = styled.div`
     display: flex;
@@ -29,7 +30,7 @@ export default function ErrorPage(){
     return(
         <Wrap>
             <Logo>
-                <img src="./image/untityLogo.png" style={{width:'100%'}}/>
+                <img src={logo} style={{width:'100%'}}/>
             </Logo>
             <Text>404 ERROR</Text>
             <P>죄송합니다. 페이지를 찾을 수 없습니다.</P>

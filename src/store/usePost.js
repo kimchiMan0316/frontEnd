@@ -11,6 +11,7 @@ const usePost = create((set)=>(
             })
             .then((response)=>response.json())
             .then((data)=>{
+                console.log(data)
                 set((state)=>({post: [...state.post,...data]}))
                 set((state)=>({offset : state.offset + 10}))
             })

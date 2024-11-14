@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useProfileStore from "../../store/useProfile";
+import logo from "../../assets/image/untityLogo.png";
 
 const Wrap = styled.div`
     height: 50px;
@@ -46,7 +47,7 @@ export default function SearchInf({username, nickname, profilePhoto, closeModal}
     return(
         <Wrap onClick={()=>{viewProfile();closeModal();}}>
             <PhotoArea>
-                <img src="./image/untityLogo.png" style={{width:"100%"}}/>
+                <img src={logo} style={{width:"100%"}}/>
             </PhotoArea>
             <UserInf>
                 <P name="username">{username}</P>

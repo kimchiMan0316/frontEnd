@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import LoginInput from "../InputComponent/Login/logininput";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/image/untityLogo.png"
 
 const Wrap = styled.div`
     z-index: 999;
@@ -218,7 +219,7 @@ const ListBox = ({item, closeModal}) =>{
         <ListComponent onClick={moveProfile}>
             <Profile>
                 <ImageArea>
-                    <img src="./image/untityLogo.png" style={{width:'100%',height:'100%'}}/>
+                    <img src={logo} style={{width:'100%',}}/>
                 </ImageArea>
                 <ProfileArea>
                     <Username>{item.username}</Username>

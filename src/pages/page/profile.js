@@ -6,6 +6,8 @@ import FollowModal from "../../components/modalComponent/followModal";
 import ProfileEditButton from "../../components/button/profileEditButton";
 import UnFollowModal from "../../components/modalComponent/unFollowModal";
 
+import img from "../../assets/image/nerd.JPEG"
+
 const Wrap = styled.div`
     padding-left: 250px;
     margin: 20px;
@@ -76,7 +78,7 @@ const Nav = styled.div`
     font-weight: 600;
 `
 const PostBox = styled.div`
-    width: 90%;
+    width: 750px;
     height: auto;
     background-color: aliceblue;
 `
@@ -135,7 +137,7 @@ export default function Profile(){
             <ProfileArea>
                 <div style={{display:'flex'}}>
                     <ProfileImage>
-                        <img src="./image/nerd.JPEG" style={{width:'100%', height:'100%'}}/>
+                        <img src={img} style={{width:'100%', height:'100%'}}/>
                     </ProfileImage>
                     <ProfileInf>
                         <UsernameInf>

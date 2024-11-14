@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ForgetId from "./id/password/forget-id";
 import ForgetPassword from "./id/password/forget-password";
 import { Link } from "react-router-dom";
+import logo from "../../../assets/image/untityLogo.png"
 
 const Wrap = styled.div`
     display: flex;
@@ -74,7 +75,7 @@ export default function ForgetAccount(){
     return(
         <Wrap>
             <Wrapper>
-            <Link to="/login"><img src="./image/untityLogo.png" style={{width:"240px", margin:"16px 0"}}/></Link>
+            <Link to="/login"><img src={logo} style={{width:"240px", margin:"16px 0"}}/></Link>
             <Conteiner>
                 <Switch>
                     <Id onClick={onSwitch} state={state} id="id">아이디 찾기</Id>
